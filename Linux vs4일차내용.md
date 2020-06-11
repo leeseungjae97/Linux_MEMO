@@ -648,8 +648,7 @@ Examples:
           -c-maybe
           -escape
           -locale
-          -clocale
-
+          -clocale 
 # Tar
 ```
 아카이브 파일 생성 시, 확장자가 없지만 가독성의 이유로 .tar를 사용한다
@@ -862,7 +861,6 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
 ```
 ```c
     #include <stdio.h>
-
     int main()/*v 를 누르면 블럭 지정.*/ {
       printf("hello, world\n);
       return 0;
