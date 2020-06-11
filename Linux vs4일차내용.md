@@ -1,3 +1,4 @@
+# Bash
 # 1. Grep
       Global REgex Print의 약자 정규 표현식과 일치하는 패턴 출력 명령어
 
@@ -639,27 +640,33 @@ Examples:
     never, simple   always make simple backups
 
     Valid arguments for the --quoting-style option are:
-    shellscript
-    -literal<br/>
-    -shell<br/>
-    -shell-always<br/>
-    -c<br/>
-    -c-maybe<br/>
-    -escape<br/>
-    -locale<br/>
-    -clocale<br/>
+          -shellscript
+          -literal
+          -shell
+          -shell-always
+          -c
+          -c-maybe
+          -escape
+          -locale
+          -clocale
 
-
+# Tar
+```
 아카이브 파일 생성 시, 확장자가 없지만 가독성의 이유로 .tar를 사용한다
-- tar cvf 압축
-- tar tf 열기
-- tar xvf 해제
-  
-  - gzip, bzip2 : 리눅스에서 제공하고는 무손실 압출 프로그램
-  - <gzip>
-    gzip : Gun zip의 약자로 유닉스 시스템에서 쓰이던 압축 프로그램을 대체
+```
+```
+압축 : tar cvf
+열기 : tar tf
+해제 : tar xvf
+```
+```  
+gzip, bzip2 : 리눅스에서 제공하고는 무손실 압출 프로그램
+```
+```
+gzip : Gun zip의 약자로 유닉스 시스템에서 쓰이던 압축 프로그램을 대체
       사용방법 gzip 파일명
       관례적인 의미로 .gzip을 쓴다.
+```
 ```powershell
     linux@ubuntu:~/0611$ ls -lh
     total 11M < 읽을 수 있는 데이터 단위로 찍힌다.
@@ -681,12 +688,13 @@ Examples:
     -rw-rw-r--  1 linux linux    16833 Jun 10 18:16 sample.txt
     -rw-rw-r--  1 linux linux    20480 Jun 10 20:10 test.tar
 ```
-ls -R | gzip >ls.txt.gz
+```powershell
+linux@ubuntu:~/0611$ ls -R | gzip >ls.txt.gz
 
 일반적으로 압축은 하나 이상의 파일에 대하여 수행
   하지만 매번 tar와 gzip명령어를 개별적으로 사용하면 생산성이 떨어짐
   이를 해결하기 위해 파이프 라인과 리다이렉션 사용
-
+```
 ```powershell
   $tar cv | gzip > test.tar.gz
 
@@ -701,8 +709,20 @@ ls -R | gzip >ls.txt.gz
     -rw-rw-r--  1 linux linux   16833 Jun 10 18:16 sample.txt
     -rw-rw-r--  1 linux linux      20 Jun 10 20:39 test.tar
     -rw-rw-r--  1 linux linux    7379 Jun 10 20:46 test.tar.gz
-
+```
  
+```shellscript
+
+linux@ubuntu:~/0611$ tar cvzf test.tar.gz *.txt
+    sample.txt
+    linux@ubuntu:~/0611$ ll
+    total 1268
+    drwxrwxr-x  2 linux linux    4096 Jun 10 20:39 ./
+    drwxr-xr-x 16 linux linux    4096 Jun 10 18:00 ../
+    -rw-rw-r--  1 linux linux 1256393 Jun 10 20:15 ls.txt.gz
+    -rw-rw-r--  1 linux linux   16833 Jun 10 18:16 sample.txt
+    -rw-rw-r--  1 linux linux      20 Jun 10 20:39 test.tar
+    -rw-rw-r--  1 linux linux    7379 Jun 10 20:46 test.tar.gz
 ```
 ```powershell
    $tar xvzf test.tar.gz
@@ -826,7 +846,7 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
 ```
   - x : 현재 커서에위치한 문자를 잘라냄
   - dd : 현재 행을 자라냄
-  - D : 현재 위치부터 행의 끝부분 까지 잘라낸다.
+  - D : 현재 위치부터 행의 끝부분 까지 잘라낸다h.
 ```
   #
   ## 4.7. 취소 및 되돌리기(undo, redo)
