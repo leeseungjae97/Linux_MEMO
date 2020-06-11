@@ -1,0 +1,185 @@
+<grep>
+    #Global REgex Print의 약자 정규 표현식과 일치하는 패턴 출력 명령어
+
+Usage: grep [OPTION]... PATTERN [FILE]...
+    Pattern selection and interpretation:
+  -E, --extended-regexp     PATTERN is an extended regular expression
+  -F, --fixed-strings       PATTERN is a set of newline-separated strings
+  -G, --basic-regexp        PATTERN is a basic regular expression (default)
+  -P, --perl-regexp         PATTERN is a Perl regular expression
+  -e, --regexp=PATTERN      use PATTERN for matching
+  -f, --file=FILE           obtain PATTERN from FILE
+  -i, --ignore-case         ignore case distinctions
+    '패턴 검색 시, 대소문자 구분 X'
+  -w, --word-regexp         force PATTERN to match only whole words
+    '해당 단어에 대해 검색'
+  -x, --line-regexp         force PATTERN to match only whole lines
+  -z, --null-data           a data line ends in 0 byte, not newline
+Miscellaneous:
+  -s, --no-messages         suppress error messages
+  -v, --invert-match        select non-matching lines
+  -V, --version             display version information and exit
+      --help                display this help text and exit
+
+Output control:
+  -m, --max-count=NUM       stop after NUM selected lines
+  -b, --byte-offset         print the byte offset with output lines
+  -n, --line-number         print line number with output lines
+      --line-buffered       flush output on every line
+  -H, --with-filename       print file name with output lines
+  -h, --no-filename         suppress the file name prefix on output
+      --label=LABEL         use LABEL as the standard input file name prefix
+  -o, --only-matching       show only the part of a line matching PATTERN
+  -q, --quiet, --silent     suppress all normal output
+      --binary-files=TYPE   assume that binary files are TYPE;
+                            TYPE is 'binary', 'text', or 'without-match'
+  -a, --text                equivalent to --binary-files=text
+  -I                        equivalent to --binary-files=without-match
+  -d, --directories=ACTION  how to handle directories;
+                            ACTION is 'read', 'recurse', or 'skip'
+  -D, --devices=ACTION      how to handle devices, FIFOs and sockets;
+                            ACTION is 'read' or 'skip'
+  -r, --recursive           like --directories=recurse
+    '하위 디렉터리의 파일까지 패턴 검색'
+  -R, --dereference-recursive  likewise, but follow all symlinks
+      --include=FILE_PATTERN  search only files that match FILE_PATTERN
+      --exclude=FILE_PATTERN  skip files and directories matching FILE_PATTERN
+      --exclude-from=FILE   skip files matching any file pattern from FILE
+      --exclude-dir=PATTERN  directories that match PATTERN will be skipped.
+  -L, --files-without-match  print only names of FILEs with no selectedlines
+    '패턴이 포함되지 않는 file 출력'
+  -l, --files-with-matches  print only names of FILEs with selected lines
+    '패턴이 포함된 file 출력'
+  -c, --count               print only a count of selected lines per FILE
+    '패턴이 일치하는 행의 개수 출력'
+  -T, --initial-tab         make tabs line up (if needed)
+  -Z, --null                print 0 byte after FILE name
+
+Context control:
+  -B, --before-context=NUM  print NUM lines of leading context
+  -A, --after-context=NUM   print NUM lines of trailing context
+  -C, --context=NUM         print NUM lines of output context
+  -NUM                      same as --context=NUM
+      --color[=WHEN],
+      --colour[=WHEN]       use markers to highlight the matching strings;
+                            WHEN is 'always', 'never', or 'auto'
+  -U, --binary              do not strip CR characters at EOL (MSDOS/Windows)
+Pattern selection and interpretation:
+  -E, --extended-regexp     PATTERN is an extended regular expression
+  -F, --fixed-strings       PATTERN is a set of newline-separated strings
+  -G, --basic-regexp        PATTERN is a basic regular expression (default)
+  -P, --perl-regexp         PATTERN is a Perl regular expression
+  -e, --regexp=PATTERN      use PATTERN for matching
+  -f, --file=FILE           obtain PATTERN from FILE
+  -i, --ignore-case         ignore case distinctions
+  -w, --word-regexp         force PATTERN to match only whole words
+  -x, --line-regexp         force PATTERN to match only whole lines
+  -z, --null-data           a data line ends in 0 byte, not newline
+
+Miscellaneous:
+  -s, --no-messages         suppress error messages
+  -v, --invert-match        select non-matching lines
+  -V, --version             display version information and exit
+      --help                display this help text and exit
+
+Output control:
+  -m, --max-count=NUM       stop after NUM selected lines
+  -b, --byte-offset         print the byte offset with output lines
+  -n, --line-number         print line number with output lines
+     '패턴이 일치하는 행의 번호를 함께 출력'
+      --line-buffered       flush output on every line
+  -H, --with-filename       print file name with output lines
+  -h, --no-filename         suppress the file name prefix on output
+      --label=LABEL         use LABEL as the standard input file name prefix
+  -o, --only-matching       show only the part of a line matching PATTERN
+  -q, --quiet, --silent     suppress all normal output
+      --binary-files=TYPE   assume that binary files are TYPE;
+                            TYPE is 'binary', 'text', or 'without-match'
+  -a, --text                equivalent to --binary-files=text
+  -I                        equivalent to --binary-files=without-match
+  -d, --directories=ACTION  how to handle directories;
+                            ACTION is 'read', 'recurse', or 'skip'
+  -D, --devices=ACTION      how to handle devices, FIFOs and sockets;
+                            ACTION is 'read' or 'skip'
+  -r, --recursive           like --directories=recurse
+  -R, --dereference-recursive  likewise, but follow all symlinks
+      --include=FILE_PATTERN  search only files that match FILE_PATTERN
+      --exclude=FILE_PATTERN  skip files and directories matching FILE_PATTERN
+      --exclude-from=FILE   skip files matching any file pattern from FILE
+      --exclude-dir=PATTERN  directories that match PATTERN will be skipped.
+  -L, --files-without-match  print only names of FILEs with no selected lines
+  -l, --files-with-matches  print only names of FILEs with selected lines
+  -c, --count               print only a count of selected lines per FILE
+  -T, --initial-tab         make tabs line up (if needed)
+  -Z, --null                print 0 byte after FILE name
+
+Context control:
+  -B, --before-context=NUM  print NUM lines of leading context
+  -A, --after-context=NUM   print NUM lines of trailing context
+  -C, --context=NUM         print NUM lines of output context
+  -NUM                      same as --context=NUM
+      --color[=WHEN],
+      --colour[=WHEN]       use markers to highlight the matching strings;
+                            WHEN is 'always', 'never', or 'auto'
+  -U, --binary              do not strip CR characters at EOL (MSDOS/Windows)
+
+
+<정규표현식>
+    #Regular Expression 또는 Regex라고 하며 규칙을 가진 문자열 집합을 말한다
+    -메타문자
+        일반적인 문자들은 리터럴 문자라고한다 : 그대로 해석되는 문자
+        메타문자는 정규표현식에 단순 문자로 해석되는것이 아니라 다른 의미로 해석되는 문자
+        ex> ^ $ . [] {} = ? * + () | ...
+
+        1. . : 임의의 1개의 문자와 일치하는 메타 문자.
+           # ex> zip 앞의 한문자 더 있는 문자를 찾고 싶을 때
+             grep .zip *
+             linux@ubuntu:~/0611$ grep -w .zip *
+             gzip
+        
+             #1개 이상도 사용이 가능
+             linux@ubuntu:~/0611$ grep -w '...zip' sample.txt 
+             linux@ubuntu:~/0611$ grep -w 'g..z.p' sample.txt
+             gunzip
+
+             #만약 . 을 메타 문자가 아닌 리터럴 문자로 해석하게 하려면 백슬래시(\)를 사용한다.
+           # ex> linux@ubuntu:~/0611$ echo "bzip \.zip" | grep 'zip'
+               bzip \.zip
+
+            검색을 위해 내용추가 linux@ubuntu:~/0611$ ls /usr/bin >>sample.txt
+        2. ^ : 특정 패턴으로 시작되는 것을 검색 할 때 사용
+           # ex> zip으로 시작되는 패턴을 찾고 싶은 경우
+             linux@ubuntu:~/0611$ grep '^zip' sample.txt
+             zip
+             zip
+             zipcloak
+             zipdetails
+             zipgrep
+             zipinfo
+             zipnote
+             zipsplit
+        3. & : 특정 패턴으로 끝나는 것을 검색 할 때 사용
+           # ex> zip으로 끝나는 패턴을 찾고 싶은 경우
+             linux@ubuntu:~/0611$ grep 'zip$' sample.txt
+             zip
+             gunzip
+             gzip
+             funzip
+             gpg-zip
+             mzip
+             preunzip
+             prezip
+             unzip
+             zip
+        4. : 특정 단어만 있는 행을 검색
+           # ex> zip단어만 검색
+             linux@ubuntu:~/0611$ grep -w '^zip$' sample.txt
+             zip
+             zip
+
+             linux@ubuntu:~/0611$ grep -w 'zip' sample.txt
+             zip
+             gpg-zip #하이푼으로 나뉘어져 있기 때문에 zip하나를 단어로 인식한다.
+             zip
+             # ^$ -> 공백문자
+
