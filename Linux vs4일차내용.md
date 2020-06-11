@@ -885,3 +885,25 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
       만약에 윈도우처럼 탐색기로 올라가서 보고싶다면 edit. 로 열어서 본다면
       자신의 파일로 따라가기때문에 파일탐색기처럼 사용가능하다.
 ```
+  #
+  ## 언어 Synax 가져오기
+  해당언어의 확장자로 파일을 저장한다
+```powershell
+  linux@ubuntu:~/0611$ cat > hello.c
+```
+```powershell
+linux@ubuntu:~/0611$ vi vimrc
+
+~/.vimrc file
+"== set cindent
+set cin
+
+"== set shiftwidth=4
+set sw4 
+```
+
+### vi에서 도움말 확인 방법
+도움람릉ㄹ 보고자 하는 명령어의 토큰에 커서를 위치한 후 k + l
+```
+echo "hello, world"
+```
