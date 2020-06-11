@@ -2,6 +2,7 @@
       Global REgex Print의 약자 정규 표현식과 일치하는 패턴 출력 명령어
 
 ```powershell
+
 Usage: grep [OPTION]... PATTERN [FILE]...
     Pattern selection and interpretation:
   -E, --extended-regexp     PATTERN is an extended regular expression
@@ -124,7 +125,9 @@ Context control:
       --colour[=WHEN]       use markers to highlight the matching strings;
                             WHEN is 'always', 'never', or 'auto'
   -U, --binary              do not strip CR characters at EOL (MSDOS/Windows)
+
 ```
+
 # 2. 정규표현식
     Regular Expression 또는 Regex라고 하며 규칙을 가진 문자열 집합을 말한다
 
@@ -134,11 +137,12 @@ Context control:
     참고링크 : https://ko.wikipedia.org/wiki/%EC%A0%95%EA%B7%9C_%ED%91%9C%ED%98%84%EC%8B%9D
      ex> ^ $ . [] {} = ? * + () | ...
         위 와 같은 메타문자를 기본정규표현식(Base Regular Expression, BRE)라고 한다.
-
-```powershell    
        
-        1. . : 임의의 1개의 문자와 일치하는 메타 문자.
+- 1.  . : 임의의 1개의 문자와 일치하는 메타 문자.
+```powershell
            # ex> zip 앞의 한문자 더 있는 문자를 찾고 싶을 때
+
+  
              grep .zip *
              linux@ubuntu:~/0611$ grep -w .zip *
              gzip
@@ -153,8 +157,14 @@ Context control:
                bzip \.zip
 
             검색을 위해 내용추가 linux@ubuntu:~/0611$ ls /usr/bin >>sample.txt
-        2. ^ : 특정 패턴으로 시작되는 것을 검색 할 때 사용
+```
+
+- 2. ^ : 특정 패턴으로 시작되는 것을 검색 할 때 사용
+
+          
+```powershell
            # ex> zip으로 시작되는 패턴을 찾고 싶은 경우
+
              linux@ubuntu:~/0611$ grep '^zip' sample.txt
              zip
              zip
@@ -164,8 +174,14 @@ Context control:
              zipinfo
              zipnote
              zipsplit
-        3. & : 특정 패턴으로 끝나는 것을 검색 할 때 사용
-           # ex> zip으로 끝나는 패턴을 찾고 싶은 경우
+
+```
+
+- 3 . & : 특정 패턴으로 끝나는 것을 검색 할 때 사용
+
+```powershell
+
+            # ex> zip으로 끝나는 패턴을 찾고 싶은 경우
              linux@ubuntu:~/0611$ grep 'zip$' sample.txt
              zip
              gunzip
@@ -177,6 +193,8 @@ Context control:
              prezip
              unzip
              zip
+```
+```powershell
             3-1 특정 단어만 있는 행을 검색
               # ex> zip단어만 검색
                 linux@ubuntu:~/0611$ grep -w '^zip$' sample.txt
@@ -188,8 +206,9 @@ Context control:
                 gpg-zip #하이푼으로 나뉘어져 있기 때문에 zip하나를 단어로 인식한다.
                 zip
               # ^$ -> 공백문자
-
-        4. [] : 문자집합중에 특정 문자와 일치하는지 확인 
+```
+```powershell
+        1. [] : 문자집합중에 특정 문자와 일치하는지 확인 
             linux@ubuntu:~/0611$ grep '[123][123]' sample.txt
             411toppm
             base32
@@ -197,7 +216,8 @@ Context control:
             linux32
             m2300w
             m2300w-wrapper
-
+```
+```powershell
             # ex> 대문자로 시작하는 패턴을 찾고싶은 경우
              linux@ubuntu:~/0611$ grep '^[[:upper:]][[:upper:]]' sample.txt
              GET
@@ -225,8 +245,9 @@ Context control:
             zipsplit
             zjsdecode
             zlib-flate
-
-        5. * : *앞의 문자가 0개 이상 반복되는 것을 표현한 메타문자
+```
+```powershell
+        2. * : *앞의 문자가 0개 이상 반복되는 것을 표현한 메타문자
             linux@ubuntu:~/0611$ echo "hello \
             > www
             > world" | grep 'w*'
@@ -234,13 +255,14 @@ Context control:
             hello www
             world
             # ex> ab aab aaab aaaab aaaaab a...b
-
+```
         
         하지만 쓰다보니 기본정규표현식만으로 표현할 수 없는 것도 생겨 확장되었다.
         BRE () {} ? + | : 확장정규표현식(Extended Regular Expression, ERE)
-            1. | : 대안(alternative)의 or 개념
-              어떤 파일에서 bz 또는 gz 또는 zip이 포함되어 있는 패턴을 찾고 싶은 경우
-              grep에서 확장정규표현식을 해석하려면 -e 옵션을 써주어야한다.
+- 1. | : 대안(alternative)의 or 개념
+```powershell
+              #어떤 파일에서 bz 또는 gz 또는 zip이 포함되어 있는 패턴을 찾고 싶은 경우
+              #grep에서 확장정규표현식을 해석하려면 -e 옵션을 써주어야한다.
               linux@ubuntu:~/0611$ grep -E 'bz|gz|zip' sample.txt
                 zip
                 bunzip2
@@ -248,8 +270,11 @@ Context control:
                 bzcmp
                 bzdiff
                 bzegrep
+
               #혹은 egrep을 써주어도 된다.
-            2. () : 검색을 위해 메타문자가 아닌 정규표현식의 요소를 결합하여 사용
+```
+- 2. () : 검색을 위해 메타문자가 아닌 정규표현식의 요소를 결합하여 사용
+```powershell
               linux@ubuntu:~/0611$ grep -E '^(bz|gz|zip)' sample.txt
               #정규표현식의 ^ 와 확장표현식의 | 를 동시에 사용. 
                 zip
@@ -260,16 +285,22 @@ Context control:
                 bzexe
                 bzfgrep
                 bzgrep
-            3. ? : 앞의 문자가 0또는 1회 반복되는 패턴 
+```
+- 1. ? : 앞의 문자가 0또는 1회 반복되는 패턴 
+```powershell
               linux@ubuntu:~/0611$ echo "http://xxx.com
               https://xxx.com
               www.xxx.com" | egrep "https?"
               #https의 앞문자 즉 's'가 없거나 하나 있는 경우를 검색.
               http://xxx.com
               https://xxx.com
-            4. + : 앞의 문자가 1번 이상 반복
-              그러나 사용에 어려움이 따른다.. 몇번 반복하는건지 사용하는 입장에서 모름
-            5. {N} : 앞의 문자가 N번 반복
+```
+- 2. (+) : 앞의 문자가 1번 이상 반복 
+```c
+      그러나 사용에 어려움이 따른다.. 몇번 반복하는건지 사용하는 입장에서 모름
+```
+- 3. {N} : 앞의 문자가 N번 반복
+```powershell
               linux@ubuntu:~/0611$ echo "www.xyz.com
               ftp.xyz.com
               xyz.com" | egrep "w{3}"# w가 3번 반복
@@ -294,6 +325,7 @@ Context control:
       이처럼 다수의 파일을 하나로 묶는 작업 Archiving
 
       이를 위해 유닉스 또는 리눅스는 tar 명령어 제공
+
 ```powershell
 
 Usage: tar [OPTION...] [FILE]...
@@ -305,7 +337,6 @@ Examples:
   tar -tvf archive.tar         # List all files in archive.tar verbosely.
   tar -xf archive.tar          # Extract all files from archive.tar.
 ```
-## 2.1. <noname>
  Local file name selection:
 
           --add-file=FILE        add given FILE to the archive (useful if its name starts with a dash)
@@ -629,7 +660,7 @@ Examples:
     gzip : Gun zip의 약자로 유닉스 시스템에서 쓰이던 압축 프로그램을 대체
       사용방법 gzip 파일명
       관례적인 의미로 .gzip을 쓴다.
-  ```powershell
+```powershell
     linux@ubuntu:~/0611$ ls -lh
     total 11M < 읽을 수 있는 데이터 단위로 찍힌다.
     -rw-rw-r-- 1 linux linux 11M Jun 10 20:15 ls.txt
@@ -649,14 +680,14 @@ Examples:
     -rw-rw-r--  1 linux linux 10830726 Jun 10 20:15 ls.txt < 압축을 해제하면 gzip이 없어진다.
     -rw-rw-r--  1 linux linux    16833 Jun 10 18:16 sample.txt
     -rw-rw-r--  1 linux linux    20480 Jun 10 20:10 test.tar
-  ```
+```
 ls -R | gzip >ls.txt.gz
 
 일반적으로 압축은 하나 이상의 파일에 대하여 수행
   하지만 매번 tar와 gzip명령어를 개별적으로 사용하면 생산성이 떨어짐
   이를 해결하기 위해 파이프 라인과 리다이렉션 사용
 
-  ```powershell
+```powershell
   $tar cv | gzip > test.tar.gz
 
   tar에서는 archiving과 동시에 압축을 수행할 수 있는 z 옵션제공
@@ -672,11 +703,11 @@ ls -R | gzip >ls.txt.gz
     -rw-rw-r--  1 linux linux    7379 Jun 10 20:46 test.tar.gz
 
  
-  ```
-  ```powershell
+```
+```powershell
    $tar xvzf test.tar.gz
     이런식으로 tar로 묶고 또 gzip로 묶는다면 .tgz 라는 형식으로 작성한다.
-  ```
+```
 
 # 3. vim
     sudo apt install vim 을 통해 vim 설치
@@ -705,14 +736,8 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
     vi을 통해 실행을 하게 되면 command mode로 진입하게 된다.
 
 ## 3.2. <noname>
-```mermaid
-graph LR;
-vim-->command;
-command-->edit;
-edit-->command;
-command-->ex;
-ex-->command;
-```
+![캡처](/assets/캡처.JPG)
+
     vi는 왜 이렇게 3개로 나누어 놨을까
 
 ## 3.3. <noname>
@@ -733,21 +758,25 @@ ex-->command;
   ```
 
 # 4. vi 편집기
-  커서이동 
+## 4.1. 커서이동 
+명령모드에서만 사용가능
+```
   - h 왼쪽이동
   - l 오른쪽이동
   - k 위쪽이동
   - j 아래쪽이동  
+```  
   #
-  편집기능
+## 4.2. 편집기능
+```
   - i(insert) 커서 위치에 글자 삽입
   - I(Insert) 행 앞으로 이동하여 삽입
   - a(append) 커서 다음 위치에 글자 삽입
   - A(Apeend) 행 뒤로 이동하여 추가
   - o(open line) 커서 아래에 새로운 행을 삽입
   - O(Open line) 커서 위에 새로운 행을 삽입
-  
-      ```c
+```
+```c
     #include <stdio.h>
 
     int main() {
@@ -755,8 +784,8 @@ ex-->command;
       //이쪽으로 개행된다.
       return 0;
     }
-    ```
-    ```c
+```
+```c
     #include <stdio.h>
 
     int main() {
@@ -764,30 +793,95 @@ ex-->command;
       printf("hello, world\n");//이쪽 라인에서 O
       return 0;
     }
-    ```
+```
   #
-  ## 4.1. 저장과 종료
+  ## 4.3. 저장과 종료
+```
   - w or write [파일명] : 파일저장
   - w! 파일명 : 현재 내용을 파일에 덮어씀
   - q or quit : 종료
   - q! or quit! : 변경된 내용을 저장하지 않고 바로 종료
   - wq or x : 저장과 종료를 동시에 
+```
   #
-  ## 4.2. 삭제
+  ## 4.4. 삭제
 편집모드에서 delete 나 backspace사용
 명령모드에 삭제수행
+```
   - x : 현재 커서에 있는문자 1개를 삭제(delete와 동일)
   - dd : 현재행을 삭제
   - D : 현재 커서에서 부터 끝까지 삭제
   - J : 현재 행에 위치한 개행 문자, 삭제 아래행 앞에 존재하는 공백은 삭제됨
+```
   #
-  ## 4.3. 복사 및 붙여넣기
+  ## 4.5. 복사 및 붙여넣기
    명령모드에서 수행
+```
    - yy: 해당 행 단위로 복사 
    - p : 붙여넣기
-  #
-  ## 4.4. 잘라내기
+```
+#
+  ## 4.6. 잘라내기
   명령모드에서 수행. 앞에서 설명한 삭제는 잘라내기 이다, 잘라내기 후 사용하지 않으면 이는 삭제된 것과 동일
+```
   - x : 현재 커서에위치한 문자를 잘라냄
   - dd : 현재 행을 자라냄
   - D : 현재 위치부터 행의 끝부분 까지 잘라낸다.
+```
+  #
+  ## 4.7. 취소 및 되돌리기(undo, redo)
+```
+  - u(undo) : 바로 이전에 수행했던 명령 하나를 취소
+  - ctrl + r(redo) : 바로 이전에 취소했던 명령을 다시 실행
+```
+  #
+  ## 4.8. 비주얼 모드(블럭지정)
+  명령모드에서 수행
+```
+  - v(visual) : 문자 단위로 블럭 지정
+```
+```c
+    #include <stdio.h>
+
+    int main()/*v 를 누르면 블럭 지정.*/ {
+      printf("hello, world\n);
+      return 0;
+    }
+```
+```
+  - V(Visual) : 행 단위로 블럭 지정
+  - ctrl + v : 열 단위로 블럭을 지정
+```
+        tip: 블럭 지정 후, ~를 누르면 대소문자 변환.
+  #
+  ## 4.9. 화면 스크롤
+  명령모드에서 수행
+```
+  - ctrl + b(backward) : 한 화면 위로 스크롤
+  - ctrl + f(forward) : 한 화면 아래로 스크롤
+  - ctrl + u(up) : 한 화면의 반만 위로 스크롤
+  - ctrl + d(down) : 한 화면의 반만 아래로 스크롤
+```
+  #
+  ## 4.10. 치환
+  ex 모드에서 수행
+  - 형식 : 시작행,끝행s / 원래문자열 / 변경문자열 / 옵션 
+```
+    ex> 1~10행의 모든 Hello를 Bye로 변경 - :1,10s/Hello/Bye/g
+    ex> 문서 전체의 모든 Hello를 Bye로 변경 - :%s/Hello/Bye/g
+    ex> 현재 행에서 마지막 행 까지의 모든 Hello를 Bye로 변경 - :.,$s/Hello/Bye/g
+```
+  ## 4.11. 윈도우 모드
+  명령모드
+```
+ ※windonw 모드 진입시 사용하는 단축키 : ctrl + w
+  - 수평분할 : ctrl + w + s(split)
+  - 수직분할 : ctrl + w + v(vertical)
+  - 창 닫기 : ctrl + w +c(close)
+  - 창 이동: ctrl + w + hjkl(좌아래위우)
+```
+```powershell
+  - edit.  #자기자신의 디렉토리 열기
+      만약에 윈도우처럼 탐색기로 올라가서 보고싶다면 edit. 로 열어서 본다면
+      자신의 파일로 따라가기때문에 파일탐색기처럼 사용가능하다.
+```
