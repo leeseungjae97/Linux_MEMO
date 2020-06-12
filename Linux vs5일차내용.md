@@ -77,18 +77,18 @@ drwxr-xr-x 17 linux linux 4096 Jun 11 17:54 ../
 -r--r--r--  1 linux linux    0 Jun 11 17:54 hello.txt
 ```
 ### 1.2.1. chmod character
-| 구분           | 문자 | 의미                     |
-| -------------- | ---- | ------------------------ |
-| 카테고리       | u    | 파일소유자(user)         |
-|                | g    | 소유자가 속한 그룹(group |
-|                | o    | 이외의 나머지(other)     |
-|                | a    | 전체 사용자(all)         |
-| 연산자 기호    | +    | 권한 추가                |
-|                | -    | 권한 삭제                |
-|                | =    | 권한 설정                |
-| 접근 권한 문자 | r    | 읽기                     |
-|                | w    | 쓰기                     |
-|                | x    | 실행                     |
+| 구분           | 문자 | 의미                      |
+| -------------- | ---- | ------------------------- |
+| 카테고리       | u    | 파일소유자(user)          |
+|                | g    | 소유자가 속한 그룹(group) |
+|                | o    | 이외의 나머지(other)      |
+|                | a    | 전체 사용자(all)          |
+| 연산자 기호    | +    | 권한 추가                 |
+|                | -    | 권한 삭제                 |
+|                | =    | 권한 설정                 |
+| 접근 권한 문자 | r    | 읽기                      |
+|                | w    | 쓰기                      |
+|                | x    | 실행                      |
 ### 1.2.2. 사용의 예
     u+x: 소유자에게 실행 권한을 부여
     u-w: 소유자로부터 쓰기 권한을 제거
@@ -150,7 +150,7 @@ linux@ubuntu:~/0612$ umask
     110 110 110 -> rw- rw- r-- 
     
 - 보안상의 이유로 일반 파일에 대해서는 실행권한을 제거 
-
+- 
 보안에 대한 취약성이 어느정도 막아진다.
 
 # 2. Super User, root
@@ -212,6 +212,7 @@ linux@ubuntu:/$ ps
   8342 pts/0    00:00:00 ps 
 #linux에서 ps 는 window의 작업관리자와 같다
 ```
+---
 top 명령어를 통해 사용중인 자원을 확인할 수 있다.
 ```powershell
 top - 19:49:51 up  2:02,  2 users,  load average: 0.07, 0.03, 0.00
@@ -232,8 +233,11 @@ KiB Swap:  1459804 total,  1459804 free,        0 used.  2540404 avail Mem
      9 root       0 -20       0      0      0 I   0.0  0.0   0:00.00 mm_percpu_wq
             ...
    130 root       0 -20       0      0      0 I   0.0  0.0   0:00.00 edac-poller
-    #동적으로 계속 받아온다.
+    /**
+    * * 동적으로 계속 받아온다
+    */
 ```
+---
     top 명령어
         - q : 종료
         - R : 정렬순서변경
@@ -258,10 +262,11 @@ stateDiagram
         startUpCode
     }
 ```
+
     main함수 호출되기전에 선행되는 코드 startup Code를 Linker가 붙여준다.
     main함수의 return은 exit(-1)과 같다.
     사용자에게 현재프로세스가 올바르게 종료되었는지 판단할 수 있게해주는 코드
-
+---
 
 프로세스는 종료 시 자신의 종료 상태를 설정해야 한다 이 종료 상태는 ? 라는 환경 변수에 저장
 이를 확인하는 방법은 다음과 같다
@@ -274,6 +279,24 @@ ls: cannot access 'dsjgopafojadojpoadj': No such file or directory
 linux@ubuntu:/$ echo $?
 2 # 실패한 뒤의 반환 값
 ```
+---
+```powershell
+linux@ubuntu:~/0612$ vi hello.c
+#include <stdlib.h>
+#include <stdio.h>
+int main() {
+    exit(100);
+}
+:wq
+
+linux@ubuntu:~/0612$ gcc hello.c -o hello
+#linux@ubuntu:~/0612$ gcc -o hello hello.c
+linux@ubuntu:~/0612$ ./hello
+linux@ubuntu:~/0612$ echo $?
+100
+#hello.c 가 종료하면서 반환한 100을 반환.
+```
+---
     bash의 환경변수중 '?' 라는 환경변수는 가장 최근에 종료된 프로세스의 종료상태값이 들어있다.
     바로 이게 return 하여 날라온 값이다.
 
@@ -283,8 +306,310 @@ exit를 실행한 프로세스를 종료하면서 ?에 종료코드값을 설정
     리눅스는 종료 상태 값을 저장하기 위해 부호 비트없이 8비트를 사용
 | unsigned |     |     |     |     |     |     |     |     |
 | -------- | --- | --- | --- | --- | --- | --- | --- | --- |
-3.2. |          | 1   | 1   | 1   | 1   | 1   | 1   | 1   | 1   |
----
-
+|          | 1   | 1   | 1   | 1   | 1   | 1   | 1   | 1   |
 때문에 종료코드의 값은 음수를 가질 수 없으며 그 값의 범위는 0~255 으로 한정
 0~255값으로 설정할 경우 미정의 동작
+
+------
+
+
+## 3.2. Signal
+서로 다른 프로세스 사이의 통신을 위한 메커니즘
+31개의 Signal이 존재
+```powershell
+linux@ubuntu:/$ kill -l
+ 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP
+ 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1
+11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM
+16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
+21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ
+26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR
+31) SIGSYS      
+#사용하는 signal
+34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
+38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
+53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
+58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+63) SIGRTMAX-1  64) SIGRTMAX
+    
+```
+---
+```powershell
+linux@ubuntu:/$ ls -R
+...
+./proc/7654/fdinfo:
+0  1  10  11  12  2  3  4  5  6  7  8  9
+
+./proc/7654/map_files:C-C #ctrl + c 를 하게 되면 signal에 보낸다. 
+./proc/7654/map_files:C-C #cXrl + c 를 하게 되면 signal에 보낸다. 
+linux@ubuntu:/$ ecxx $?
+130
+```
+128~255 
+0~128 다른 특정 오류 정보
+127까지 예약되어 있고 128부터 새로운 값을 배정하게되는데
+
+에러 종료시 return 값이 2이므로 128 + 2 = 130
+
+-----
+# 4. Script
+Script?
+
+    Shell이나 명령행에서 실행되도록 작성된 text파일
+    실행가능한 명령등을 포함하고 있는 text
+
+#
+리눅스에서는 확장자의 개념이 없지만 가독성을 이유로 확장자를 붙이는데 확장자명은 .sh를 사용
+
+    hello.sh
+---
+## 4.1. Script 작성 방법
+Script 파일의 최상단에 위치하는 
+Shebang 피알을 실행할 인터프리터를 명시
+
+반드시 #! 로 시작해야 하며 해석할 인터프리터는 절대 경로를 사용해야한다.
+```powershell
+linux@ubuntu:~/0612$ which bash
+/bin/bash #bash의 절대경로 확인
+
+#!/bin/bash 
+```
+---
+```powershell
+vi a.sh
+#!/bin/bash
+
+echo "hello, world" #hello ,world 문자열을 화면에 출력
+:wq
+
+a.sh #실행안됨
+```
+- 해당 코드를 실행하기 위해서 환경변수 Path에 해당 디렉토리를 추가해주거나
+절대경로나 상대경로를 입력해 주면된다.
+```powershell
+linux@ubuntu:~/0612$ ./a.sh
+-su: ./a.sh: Permission denied
+
+-rw-rw-r--  1 linux linux   77 Jun 11 22:16 a.sh
+linux@ubuntu:~/0612$ chmod +x a.sh # 모두에게 실행권한 
+-rwxrwxr-x  1 linux linux   77 Jun 11 22:16 a.sh*
+```
+---
+```powershell
+#!/bin/bash
+
+echo "hello, world" #hello ,world 문자열을 화면에 출력
+
+# exit 0 명시적으로 종료값을 써주지 않아도 된다.
+linux@ubuntu:~/0612$ ./a.sh # 절대경로
+hello, world
+```
+- 그러나 우리는 출력을 위해 저장하고 나가고 수정을 위해 다시 vi로 들어가주어야한다.
+4.2. 불 - 편
+---
+## 4.3. Shell 단축키 작성
+키 매핑을 통해 사용자 정의 단축키 사용
+
+    MAP_MODE [단축키] [정의]
+
+- 맵 모드의 종류는 여러가지가 있으며 대표적으로 아래의 3가지가 많이 사용
+
+        nmap : 일반모드(명령모드)
+        imap : 편집모드
+        vmap : 비주얼모드(블럭이 선택된 상태)
+---
+```powershell
+#!/bin/bash
+
+# echo "hello, world" #hello ,world 문자열을 화면에 출력
+# echo "hello, world" #hello ,world 문자열을 화면에 출력
+# echo "hello, world" #hello ,world 문자열을 화면에 출력
+# echo "hello, world" #hello ,world 문자열을 화면에 출력
+# echo "hello, world" #hello ,world 문자열을 화면에 출력
+
+# 매번 주석처리하기 힘들다.
+
+# exit 0
+```
+---
+```powershell
+set cin
+set sw=4
+set ts=4
+set nu
+
+"한 줄 주석
+nmap <C-C> <ESC>v
+:'<,'>normal x 
+" #
+#ctrl + c
+#후에 exMode 입력시 '<,'> 출력
+# '<,'> 꺽새는 그대로 사용못하기 때문에 콤마가 붙었다고 생각
+#x는 문자하나 delete
+```
+---
+```powershell
+  1 set cin
+  2 set sw=4
+  3 set ts=4
+  4 set nu
+  5
+  6 "한 줄 주석"
+  7 nmap <C-C> <ESC>v:'<,'>normal i# <CR>
+  8 nmap <C-X> <ESC>v:'<,'>normal xx <CR>
+  9
+ 10 "여러 줄 주석"
+ 11 vmap <C-C> <ESC>:'<,'>normal i# <CR>
+ 12 vmap <C-X> <ESC>:'<,'>normal xx <CR>
+ 13
+ 14 "run script"
+ 15 nmap <F5> <ESC>:w<CR> :! chmod +x ./%<CR> :! clear; ./%<CR>
+ :wq
+```
+%x는 실행 
+i는 공백
+CR은 엔터
+#
+---
+#표준출력
+## 4.5. echo 
+- 문자열 출력 후 개행을 수행한다.
+- 개행을 원치 않을 경우, -n 옵션을 사용
+
+---
+```powershell
+  1 #!/bin/bash
+  2
+  3 # echo "hello, world" #hello ,world 문자열을 화면에 출력
+  4 # printf "hello, world\n"
+  5
+  6 name=daniel
+  7 age=20
+  8
+  9 echo "name : $name, age : $age"
+ 10 printf "name : %s, age : %d\n" $name $age
+ 11 # # exit 0
+
+```
+|출력|
+|-|
+    
+    name : daniel, age : 20
+    name : daniel, age : 20
+    Press ENTER or type command to continue
+---
+```powershell
+ 1 #!/bin/bash
+  2
+  3 # echo "hello, world" #hello ,world 문자열을 화면에 출력
+  4 # printf "hello, world\n"
+  5
+  6 name=daniel
+  7 age=20
+  8
+  9 echo "name : $name, age : $age"
+ 10 printf "name : %s, age : %d\n" $name $age
+ 11
+ 12 printf "%d, %X, %f\n" $age $age $age
+ 13 # exit 0
+```
+|출력|
+|-|
+
+    name : daniel, age : 20
+    name : daniel, age : 20
+    20, 14, 20.000000
+
+    Press ENTER or type command to continue
+|shell에서 사용되는 모든 형식은 문자열이다 수처리를 하기위해 별도의 명령어를 써야한다 그러므로 출력에 찍히는 모든 값들이 문자열이라고 생각하면된다.
+|--|
+---
+```powershell
+ 14 # 스크립트 안에서 명령을 실행하면 그 결과는 표준 출력으로 전송된다
+ 15 cal
+```
+echo "$(cal)"이라고 작성하지않아도 어차피 표준출력으로 가기 떄문에 따로 작성해 주지 않아도 된다.
+#
+---
+## 4.8. Shell Script 변수 선언 규칙
+
+Shell Script에서는 타입이 존재하지 않고 모든 데이터는 기본적으로 문자열로 처리됨
+
+변수이름 규칙
+1. 알파벳, 숫자, 밑줄만 사용
+2. 변수명의 첫 번째 글자는 반드시 문자나 밑줄만 와야한다 숫자못옴
+3. 공백이나 구두점은 사용 할 수 없음
+
+C나 Java와는 달리 변수를 미리 선언할 필요가 없고 필요할 때 마다 변수를 생성하면 된다
+
+변수 생성 방법 
+
+        변수명 = 값 
+|(주의 ! = 기호 앞과 뒤에 공백이 없어야한다)|
+|--|
+---
+변수만 생성 가능 
+
+        변수명 =  (값이 없는 변수를 선언)
+---
+```powershell
+  1 #! /bin/bash
+  2 # 매개변수 치환 방식
+  3 name=daniel
+  4
+  5 echo name # name
+  6 echo $name # daniel
+  7 echo "$name" #daniel
+  8 echo "$name" # $name
+  9 echo "'$name'" # '$name'
+ 10 echo \$name # daniel 
+ 11 echo ${name} # daniel 중괄호를 이용한 매개변수 치환
+ 12
+ 13 echo "$namexxx" #아무것도 출력되지 않는다
+ 14 echo "$name"xxx #danielxxx
+ 15
+ 16
+ 17 result=$(date)#result=`date`
+ 18 echo "result: $result"
+
+```
+|출력|
+|-|
+
+    name
+    daniel
+    daniel
+    daniel
+    'daniel'
+    $name
+    daniel
+
+    danielxxx
+    result: Thu Jun 11 23:48:28 PDT 2020
+
+    Press ENTER or type command to continue
+---
+|사용예제|
+|--|
+```
+로그파일을 구분하기위해서 로그파일을 시간단위로 작성할 때
+date를 작성할때 date로 쓰면 단순히 기본값으로 나오지만
+서식문자를 지정해주면 
+
+date +%Y%m%d
+```
+---
+    linux@ubuntu:~/0612$ date +%Y%m%d
+    20200611
+
+```powershell
+linux@ubuntu:~/0612$ vi Date.sh
+  1 #!/bin/bash
+  2
+  3 today=(date +%Y%m%d)
+  4 ls /usr -al > log.$today
+```
+
+
