@@ -8,6 +8,7 @@
 ```
 ## 권한
 - 파일 및 디렉토리 권한
+#
 ![th](/assets/th.JPG)
 
 ![sda](/assets/sda.JPG)
