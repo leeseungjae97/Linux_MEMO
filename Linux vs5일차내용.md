@@ -234,7 +234,7 @@ KiB Swap:  1459804 total,  1459804 free,        0 used.  2540404 avail Mem
             ...
    130 root       0 -20       0      0      0 I   0.0  0.0   0:00.00 edac-poller
     /**
-    * * 동적으로 계속 받아온다
+    * ! 동적으로 계속 받아온다
     */
 ```
 ---
@@ -407,7 +407,7 @@ linux@ubuntu:~/0612$ ./a.sh # 절대경로
 hello, world
 ```
 >그러나 우리는 출력을 위해 저장하고 나가고 수정을 위해 다시 vi로 들어가주어야한다.
-> 불 - 편
+4.2. > 불 - 편
 ---
 ## 4.3. Shell 단축키 작성
 >키 매핑을 통해 사용자 정의 단축키 사용
@@ -527,7 +527,7 @@ CR은 엔터
 
     Press ENTER or type command to continue
 | shell에서 사용되는 모든 형식은 문자열이다 수처리를 하기위해 별도의 명령어를 써야한다 그러므로 출력에 찍히는 모든 값들이 문자열이라고 생각하면된다. |
-5.2. | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- |
 ---
 ```powershell
  14 # 스크립트 안에서 명령을 실행하면 그 결과는 표준 출력으로 전송된다
@@ -600,7 +600,7 @@ C나 Java와는 달리 변수를 미리 선언할 필요가 없고 필요할 때
 >로그파일을 구분하기위해서 로그파일을 시간단위로 작성할 때
 date를 작성할때 date로 쓰면 단순히 기본값으로 나오지만
 서식문자를 지정
->>/date +%Y%m%d
+>>date +%Y%m%d
 ---
     linux@ubuntu:~/0612$ date +%Y%m%d
     20200611
@@ -648,7 +648,7 @@ Press ENTER or type command to continue
 
 ```
 ---
-## 5.6. 문자열 인덱스
+## 5.7. 문자열 인덱스
 >어떤 문자열에서 찾고자하는 문자열
 
 ---
@@ -667,7 +667,7 @@ Press ENTER or type command to continue
 Press ENTER or type command to continue
 ```
 ---
-## 5.7. 부분 분자열 추출
+## 5.8. 부분 분자열 추출
 >expr substr [문자열][시작위치][길이값]
 >> ${문자열:위치:길이}
 ---
@@ -684,7 +684,7 @@ Press ENTER or type command to continue
     XYZ
     Press ENTER or type command to continue
 ---
-## 5.9. 부분 문자열 삭제
+## 5.10. 부분 문자열 삭제
 >문자열의 앞에서 부터 일치하는 부분 문자열을 삭제하는 방법
 
         ${문자열#패턴}: 문자열의 앞에서부터 가장 짧게 일치하는 패턴을 삭제
@@ -697,7 +697,7 @@ str="abcABC123ABCabc"s
 ```
 | 긴패턴       | 짧은패턴 |
 | ------------ | -------- |
-5.10. | abcABC123ABC | abcABC   |
+ | abcABC123ABC | abcABC   |
 ---
 ```powershell
  18 str="abcABC123ABCabc"
@@ -724,7 +724,7 @@ str="abcABC123ABCabc"s
     a.sh
 ---
 
-## 5.11. (뒷)부분 문자열 삭제
+## 5.12. (뒷)부분 문자열 삭제
 >문자열의 뒤에서부터 일치하는 부분 문자열을 삭제
 ```powershell
  18 str="abcABC123ABCabc"
@@ -732,7 +732,7 @@ str="abcABC123ABCabc"s
 ```
 | 긴패턴 | 짧은패턴 |
 | ------ | -------- |
-5.12. | a      | bc       |
+| a      | bc       |
 ---
 ```powershell
  18 str="abcABC123ABCabc"
@@ -761,7 +761,7 @@ Press ENTER or type command to continue
 
     Press ENTER or type command to continue
 ---
-## 부분 문자열 치환
+## 5.14. 부분 문자열 치환
 >문자열에서 일치하는 부분 문자열을 다른 문자열로 치환
 
     ${문자열/패턴/치환문자열}:  문자열에 대하여 처음 일치하는 패턴을 치환 문자열로 교체
@@ -803,3 +803,65 @@ Press ENTER or type command to continue
 
 
     Press ENTER or type command to continue
+
+---
+## 5.15. 문자열 입력
+read
+>표준 입력(파이프라인 입력 또는 키보드 입력)에서 한 줄의 내용씩 읽어 들이는 명령어
+```
+read: read [-ers] [-a array] [-d delim] [-i text] [-n nchars] [-N nchars] [-p prompt] [-t timeout] [-u fd] [name ...]
+    Read a line from the standard input and split it into fields.
+
+    Reads a single line from the standard input, or from file descriptor FD
+    if the -u option is supplied.  The line is split into fields as with word
+    splitting, and the first word is assigned to the first NAME, the second
+    word to the second NAME, and so on, with any leftover words assigned to
+    the last NAME.  Only the characters found in $IFS are recognized as word
+    delimiters.
+
+    If no NAMEs are supplied, the line read is stored in the REPLY variable.
+
+    Options:
+      -a array  assign the words read to sequential indices of the array
+                variable ARRAY, starting at zero
+      -d delim  continue until the first character of DELIM is read, rather
+                than newline
+      -e        use Readline to obtain the line in an interactive shell
+      -i text   use TEXT as the initial text for Readline
+      -n nchars return after reading NCHARS characters rather than waiting
+                for a newline, but honor a delimiter if fewer than
+                NCHARS characters are read before the delimiter
+      -N nchars return only after reading exactly NCHARS characters, unless
+                EOF is encountered or read times out, ignoring any
+                delimiter
+      -p prompt output the string PROMPT without a trailing newline before
+                attempting to read
+      -r        do not allow backslashes to escape any characters
+      -s        do not echo input coming from a terminal
+      -t timeout        time out and return failure if a complete line of
+                input is not read within TIMEOUT seconds.  The value of the
+                TMOUT variable is the default timeout.  TIMEOUT may be a
+                fractional number.  If TIMEOUT is 0, read returns
+                immediately, without trying to read any data, returning
+                success only if input is available on the specified
+                file descriptor.  The exit status is greater than 128
+                if the timeout is exceeded
+      -u fd     read from file descriptor FD instead of the standard input
+```
+```powershell
+  1 #!/bin/bash
+  2 # stdin.sh
+  3
+  4 # echo -n "enter your name: "
+  5 # read name
+  6
+  7 # read -p "enter your name: " name
+  8 # echo "your name: $name"
+  9
+ 10
+ 11 # read -p "input your name: "
+ 12 # echo "your name : $REPLY"
+ 13
+ 14 read -p "input your name: " first last
+ 15 echo "your name : $first $last"
+```
