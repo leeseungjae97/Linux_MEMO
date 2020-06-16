@@ -18,11 +18,11 @@ linux@ubuntu:~/0615$ vi 0612.sh
     if 문은 종료 상태를 보고 0이면 참으로 인식하여 실행
 
 - 기호를 쓰지않고 옵션을 사용하여 대소 비교
->int1 -eq int2: int 1 == int2
-int1 -ne int2: int 1 != int2
-int1 -gt int2: int 1 > int2
-int1 -lt int2: int 1 < int2
-int1 -ge int2: int 1 >= int2
+>int1 -eq int2: int 1 == int2<br/>
+int1 -ne int2: int 1 != int2<br/>
+int1 -gt int2: int 1 > int2<br/>
+int1 -lt int2: int 1 < int2<br/>
+int1 -ge int2: int 1 >= int2<br/>
 int1 -le int2: int 1 <= int2
 ---
 SYNOPSIS
