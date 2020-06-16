@@ -1,12 +1,10 @@
 # 1. 권한
 ## 1.1. 파일의 권한
 - 파일 및 디렉토리 권한
-#
-![th](/assets/th.JPG)
-
-![sda](/assets/sda.JPG)
+![](assets/2020-06-16-16-29-19.png)
+![](assets/2020-06-16-16-30-17.png)
 - 각각의 기능 <br/>
-![캡처ewe](/assets/캡처ewe.JPG)<br/>
+![](assets/2020-06-16-16-30-44.png)<br/>
  파일권한을 바꾸는 모습
 ```powershell
 linux@ubuntu:~/0612$ touch hello.txt
@@ -31,7 +29,7 @@ cat: hello.txt: Permission denied
 #권한이 없어 hello.txt의 내용을 알 수 없다.
 ```
 ## 1.2. 파일의 권한 변경 방법
-![캡werqwr처](/assets/캡werqwr처.JPG)
+![](assets/2020-06-16-16-31-08.png)
     
     퍼미션을 정수로 사용하여 8진수로 저장 설정
     ex> chmod 444 a.txt
