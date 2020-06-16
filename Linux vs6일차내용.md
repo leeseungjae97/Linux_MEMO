@@ -292,8 +292,10 @@ wrong password
 Press ENTER or type command to continue
 ```
 <br/>
+
 ---
-- [ 조건검사 ] || 동작 : 조건이 참이 아니면 동작을 수행
+
+- [ 조건검사 ] || 동작 : 조건이 참이 아니면 동작을 수행 <br/>
 - [ 조건검사 ] && 동작 : 조건이 참이면 동작을 수행
 
         ex> 인자가 3개인 스크립트 작성  
