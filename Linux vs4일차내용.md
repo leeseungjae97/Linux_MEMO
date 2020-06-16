@@ -1,9 +1,8 @@
 # Bash
-# 1. Grep
+## Grep
       Global REgex Print의 약자 정규 표현식과 일치하는 패턴 출력 명령어
 
-```powershell
-
+```s
 Usage: grep [OPTION]... PATTERN [FILE]...
     Pattern selection and interpretation:
   -E, --extended-regexp     PATTERN is an extended regular expression
@@ -129,7 +128,7 @@ Context control:
 
 ```
 
-# 2. 정규표현식
+## 정규표현식
     Regular Expression 또는 Regex라고 하며 규칙을 가진 문자열 집합을 말한다
 
     -메타문자
@@ -140,10 +139,8 @@ Context control:
         위 와 같은 메타문자를 기본정규표현식(Base Regular Expression, BRE)라고 한다.
        
 - 1.  . : 임의의 1개의 문자와 일치하는 메타 문자.
-```powershell
+```s
            # ex> zip 앞의 한문자 더 있는 문자를 찾고 싶을 때
-
-  
              grep .zip *
              linux@ubuntu:~/0611$ grep -w .zip *
              gzip
@@ -159,11 +156,9 @@ Context control:
 
             검색을 위해 내용추가 linux@ubuntu:~/0611$ ls /usr/bin >>sample.txt
 ```
-
 - 2. ^ : 특정 패턴으로 시작되는 것을 검색 할 때 사용
-
           
-```powershell
+```s
            # ex> zip으로 시작되는 패턴을 찾고 싶은 경우
 
              linux@ubuntu:~/0611$ grep '^zip' sample.txt
@@ -178,9 +173,9 @@ Context control:
 
 ```
 
-- 3 . & : 특정 패턴으로 끝나는 것을 검색 할 때 사용
+- 3. & : 특정 패턴으로 끝나는 것을 검색 할 때 사용
 
-```powershell
+```s
 
             # ex> zip으로 끝나는 패턴을 찾고 싶은 경우
              linux@ubuntu:~/0611$ grep 'zip$' sample.txt
@@ -195,7 +190,7 @@ Context control:
              unzip
              zip
 ```
-```powershell
+```s
             3-1 특정 단어만 있는 행을 검색
               # ex> zip단어만 검색
                 linux@ubuntu:~/0611$ grep -w '^zip$' sample.txt
@@ -208,7 +203,8 @@ Context control:
                 zip
               # ^$ -> 공백문자
 ```
-```powershell
+---
+```s
         1. [] : 문자집합중에 특정 문자와 일치하는지 확인 
             linux@ubuntu:~/0611$ grep '[123][123]' sample.txt
             411toppm
@@ -218,7 +214,7 @@ Context control:
             m2300w
             m2300w-wrapper
 ```
-```powershell
+```s
             # ex> 대문자로 시작하는 패턴을 찾고싶은 경우
              linux@ubuntu:~/0611$ grep '^[[:upper:]][[:upper:]]' sample.txt
              GET
@@ -247,7 +243,7 @@ Context control:
             zjsdecode
             zlib-flate
 ```
-```powershell
+```s
         2. * : *앞의 문자가 0개 이상 반복되는 것을 표현한 메타문자
             linux@ubuntu:~/0611$ echo "hello \
             > www
@@ -257,11 +253,12 @@ Context control:
             world
             # ex> ab aab aaab aaaab aaaaab a...b
 ```
-        
+---
+## 확장정규표현식
         하지만 쓰다보니 기본정규표현식만으로 표현할 수 없는 것도 생겨 확장되었다.
         BRE () {} ? + | : 확장정규표현식(Extended Regular Expression, ERE)
 - 1. | : 대안(alternative)의 or 개념
-```powershell
+```s
               #어떤 파일에서 bz 또는 gz 또는 zip이 포함되어 있는 패턴을 찾고 싶은 경우
               #grep에서 확장정규표현식을 해석하려면 -e 옵션을 써주어야한다.
               linux@ubuntu:~/0611$ grep -E 'bz|gz|zip' sample.txt
@@ -275,7 +272,7 @@ Context control:
               #혹은 egrep을 써주어도 된다.
 ```
 - 2. () : 검색을 위해 메타문자가 아닌 정규표현식의 요소를 결합하여 사용
-```powershell
+```s
               linux@ubuntu:~/0611$ grep -E '^(bz|gz|zip)' sample.txt
               #정규표현식의 ^ 와 확장표현식의 | 를 동시에 사용. 
                 zip
@@ -288,7 +285,7 @@ Context control:
                 bzgrep
 ```
 - 1. ? : 앞의 문자가 0또는 1회 반복되는 패턴 
-```powershell
+```s
               linux@ubuntu:~/0611$ echo "http://xxx.com
               https://xxx.com
               www.xxx.com" | egrep "https?"
@@ -301,7 +298,7 @@ Context control:
       그러나 사용에 어려움이 따른다.. 몇번 반복하는건지 사용하는 입장에서 모름
 ```
 - 3. {N} : 앞의 문자가 N번 반복
-```powershell
+```s
               linux@ubuntu:~/0611$ echo "www.xyz.com
               ftp.xyz.com
               xyz.com" | egrep "w{3}"# w가 3번 반복
@@ -321,14 +318,14 @@ Context control:
                 http://ftp.xyz.com #s가 {0,1}도 포함되어있다. 즉 http(s{0,1}){0,1} 이런느낌
                 https://xyz.com 
 ```
-
+---
+## tar
     파일 작업을 하다보면 다수의 파일을 하나의 파일로 묶어어야 하는 경우 발생
-      이처럼 다수의 파일을 하나로 묶는 작업 Archiving
+    이처럼 다수의 파일을 하나로 묶는 작업 Archiving
 
-      이를 위해 유닉스 또는 리눅스는 tar 명령어 제공
+    이를 위해 유닉스 또는 리눅스는 tar 명령어 제공
 
-```powershell
-
+```s
 Usage: tar [OPTION...] [FILE]...
 GNU 'tar' saves many files together into a single tape or disk archive, and can
 restore individual files from the archive.
@@ -620,36 +617,7 @@ Examples:
 
       -o                         when creating, same as --old-archive; when
                              extracting, same as --no-same-owner
-
- Other options:
-
-      -?, --help                 give this help list
-          --restrict             disable use of some potentially harmful options
-          --usage                give a short usage message
-          --version              print program version
-
-    Mandatory or optional arguments to long options are also mandatory or optional
-    for any corresponding short options.
-
-    The backup suffix is '~', unless set with --suffix or SIMPLE_BACKUP_SUFFIX.
-    The version control may be set with --backup or VERSION_CONTROL, values are:
-
-    none, off       never make backups
-    t, numbered     make numbered backups
-    nil, existing   numbered if numbered backups exist, simple otherwise
-    never, simple   always make simple backups
-
-    Valid arguments for the --quoting-style option are:
-          -shellscript
-          -literal
-          -shell
-          -shell-always
-          -c
-          -c-maybe
-          -escape
-          -locale
-          -clocale 
-# Tar
+---
 ```
 아카이브 파일 생성 시, 확장자가 없지만 가독성의 이유로 .tar를 사용한다
 ```
@@ -658,6 +626,8 @@ Examples:
 열기 : tar tf
 해제 : tar xvf
 ```
+---
+### gzip
 ```  
 gzip, bzip2 : 리눅스에서 제공하고는 무손실 압출 프로그램
 ```
@@ -666,7 +636,7 @@ gzip : Gun zip의 약자로 유닉스 시스템에서 쓰이던 압축 프로그
       사용방법 gzip 파일명
       관례적인 의미로 .gzip을 쓴다.
 ```
-```powershell
+```s
     linux@ubuntu:~/0611$ ls -lh
     total 11M < 읽을 수 있는 데이터 단위로 찍힌다.
     -rw-rw-r-- 1 linux linux 11M Jun 10 20:15 ls.txt
@@ -687,14 +657,16 @@ gzip : Gun zip의 약자로 유닉스 시스템에서 쓰이던 압축 프로그
     -rw-rw-r--  1 linux linux    16833 Jun 10 18:16 sample.txt
     -rw-rw-r--  1 linux linux    20480 Jun 10 20:10 test.tar
 ```
-```powershell
+---
+```s
 linux@ubuntu:~/0611$ ls -R | gzip >ls.txt.gz
 
 일반적으로 압축은 하나 이상의 파일에 대하여 수행
   하지만 매번 tar와 gzip명령어를 개별적으로 사용하면 생산성이 떨어짐
   이를 해결하기 위해 파이프 라인과 리다이렉션 사용
 ```
-```powershell
+---
+```s
   $tar cv | gzip > test.tar.gz
 
   tar에서는 archiving과 동시에 압축을 수행할 수 있는 z 옵션제공
@@ -723,14 +695,14 @@ linux@ubuntu:~/0611$ tar cvzf test.tar.gz *.txt
     -rw-rw-r--  1 linux linux      20 Jun 10 20:39 test.tar
     -rw-rw-r--  1 linux linux    7379 Jun 10 20:46 test.tar.gz
 ```
-```powershell
+```s
    $tar xvzf test.tar.gz
     이런식으로 tar로 묶고 또 gzip로 묶는다면 .tgz 라는 형식으로 작성한다.
 ```
-
+---
 # 3. vim
     sudo apt install vim 을 통해 vim 설치
-```powershell
+```s
 linux@ubuntu:~/0611$ sudo apt install vim
 [sudo] password for linux:
 Reading package lists... Done
@@ -748,18 +720,13 @@ After this operation, 32.0 MB of additional disk space will be used.
 Do you want to continue? [Y/n] Y
     ...
 Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
-
 ```
 
 ## 3.1. vim의 모드
     vi을 통해 실행을 하게 되면 command mode로 진입하게 된다.
-
-## 3.2. <noname>
-![캡처](/assets/캡처.JPG)
-
+![](assets/2020-06-15-19-32-04.png)
     vi는 왜 이렇게 3개로 나누어 놨을까
 
-## 3.3. <noname>
     vi를 만드는 사람이 기존 Window와 같은 단축키를 이용하려 했지만 기존 Terminal에서 쓰고있으므로 사용할 수 없다. 그렇게 만들어진게 명령모드이다.
 
           ed -> ex -> vi -> vim
@@ -771,7 +738,7 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
       또한 사용자가 키를 원하는 명령어를 만들어 쓸 수 있게된다.
 
  ## 3.5. 명령모드 사용 <br/>
-  ```powershell  
+  ```s  
       linux@ubuntu:~/0611$ write [filename], w[filename]
       ex) w hello.txt
   ```
@@ -898,7 +865,7 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
   - 창 닫기 : ctrl + w +c(close)
   - 창 이동: ctrl + w + hjkl(좌아래위우)
 ```
-```powershell
+```s
   - edit.  #자기자신의 디렉토리 열기
       만약에 윈도우처럼 탐색기로 올라가서 보고싶다면 edit. 로 열어서 본다면
       자신의 파일로 따라가기때문에 파일탐색기처럼 사용가능하다.
@@ -906,10 +873,10 @@ Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
   #
   ## 언어 Synax 가져오기
   해당언어의 확장자로 파일을 저장한다
-```powershell
+```s
   linux@ubuntu:~/0611$ cat > hello.c
 ```
-```powershell
+```s
 linux@ubuntu:~/0611$ vi vimrc
 
 ~/.vimrc file

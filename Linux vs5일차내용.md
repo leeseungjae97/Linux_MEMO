@@ -180,7 +180,7 @@ root@ubuntu:/home/linux/0612# su -l linux
 linux@ubuntu:~$ ll
 ```
 ## 2.1. sudo(substitute user)
-![](2020-06-12-11-28-43.png)
+![](assets/2020-06-12-11-28-43.png)
 
     su 명령어를 사용한 실행은 반드시 root 사용자의 비밀번호를 알아야만 가능
     하지만 sudo 명령어는 일반 계정 사용자에 대해서도 명령을 수행할 수 있게한다
@@ -476,11 +476,11 @@ i는 공백
 CR은 엔터
 #
 ---
+
 # 5. 표준출력
 ## 5.1. echo 
 >문자열 출력 후 개행을 수행한다.
 개행을 원치 않을 경우, -n 옵션을 사용
-
 ---
 ```powershell
   1 #!/bin/bash
