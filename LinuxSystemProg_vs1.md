@@ -335,7 +335,7 @@ linux@ubuntu:~/0617$ vi 2_buffer.c
 
 ```
 ---
->line 9의 코드 동작원리
+>line 9의 코드 동작원리<br/>
 ![](assets/2020-06-17-10-46-00.png)
 <br/>
 
@@ -537,14 +537,14 @@ SEE ALSO
 
 
 
-4KB 단위로 쪼개진 hello.c
+4KB 단위로 쪼개진 hello.c<br/>
 ![](assets/2020-06-17-11-45-56.png) <br/>
 ![](assets/2020-06-17-11-46-20.png)<br/>
 ![](assets/2020-06-17-11-46-41.png)<br/>
 마지막 공간은 3KB이다... <br/>
 미예약영역에 대한 write <br/>
 
->fwrite(buf, sizeof(char), nRead, stdout)
+>fwrite(buf, sizeof(char), nRead, stdout)<br/>
 ![](assets/2020-06-17-11-47-37.png)<br/>
 
 
@@ -698,6 +698,7 @@ SEE ALSO
        lseek(2), fseeko(3)
 
 ```
+---
 >int fseek(FILE *stream, long offset, int whence);<br/>
 >현재 offset에 대한 값 return<br/>
 ![](assets/2020-06-17-11-53-48.png)<br/>
