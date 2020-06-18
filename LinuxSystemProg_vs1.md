@@ -300,6 +300,32 @@ linux@ubuntu:~/0617$ ./a.out
 ```
 ---
 ### 버퍼를 사용한 제어
+---
+```c
+  1 #include <unistd.h>
+  2 #include <stdio.h>
+  3 int main(int argc, char **argv) {
+  4     for (int i = 0 ; i < argc; i++ ) {
+  5         printf("%d : %s\n",i, argv[i]);
+  6     }
+  7
+  8     return 0;
+  9 }
+
+```
+|-출력!|
+|-|
+```s
+linux@ubuntu:~/0617-1$ ./a.out test1.txt test2.txt test3.txt
+0 : ./a.out
+1 : test1.txt
+2 : test2.txt
+3 : test3.txt
+
+```
+> main으로 인자를 받는 모습<br/>
+>> 해당 기능을 이용하여 Linux의 파일들을 받아온다<br/>
+---
 ```s
 linux@ubuntu:~/0617$ cp 1_buffer.c 2_buffer.c
 linux@ubuntu:~/0617$ vi 2_buffer.c
@@ -434,7 +460,7 @@ int main() {
      return 0;
   }
 ```
->method chaining을 제공하기 위해서 을 return
+>method chaining을 제공
 
 | -출력! |
 | ------ |
@@ -702,11 +728,9 @@ SEE ALSO
 >int fseek(FILE *stream, long offset, int whence);<br/>
 >현재 offset에 대한 값 return<br/>
 ![](assets/2020-06-17-11-53-48.png)<br/>
-fseek(), fsetpos() return 0, and ftell() returns the current offset.  Otherwise, -1  is
 
-
+    fseek(), fsetpos() return 0, and ftell() returns the current offset.  Otherwise, -1  is
     If whence is set to SEEK_SET, SEEK_CUR, or SEEK_END-
-
 
 - ftell
 
@@ -807,6 +831,8 @@ long getFilesize(FILE *fp) {
 }
 
 int main(int argc, char **argv) {
+    --argc;
+    ++argv;
     FILE *fp = fopen(*argv, "r");
     printf("FILE SIZE : %ld", getFilesize(fp));
 
@@ -1026,29 +1052,28 @@ asdfasdf
 asdfasdf
 ```
 ---
-## 
+### Descriptor
+>암묵적으로 커널영역의 디바이스를 줄때 해당 디바이스의 주소를 직접주면 해킹의 위험이 따른다
 
-커널의 자원을 프로세스가 안전하게 사용할 수 있게 
-커널영역의 다바이스에 대해서 
+    그러므로 임의의 번호를 부여받아 디바이스를 할당해준다
+    0 - stdin 
+    1 - stdout
 
-암묵적으로 커널영역의 디바이스를 줄때 해당 디바이스의 주소를 직접주면 해킹의 위험이 따른다
+    와 같이 정수형 상수값을 부여
+    해당값 변조 불가능
+<br/>
 
-그러므로 임의의 번호를 부여받아 디바이스를 할당해준다
-
-0 - stdin 
-1 - stdout
-
-와 같이 정수형 상수값을 부여
-해당값 변조 불가능
-
-    bash 리다이렉션의 경우
+>descriptor<br/>
+![](assets/2020-06-17-17-45-18.png)<br/>
+>bash 리다이렉션의 경우<br/>
         키보드 0
         모니터 1
         표준에러 2
+<br/>
 
-        아무런 의미없는 정수형 상수를 썻던 이유가 
-        bash에서 잘못된주소의 접근을 방지하기위해
-        모든 프로세스의 하드웨어에 0이상의 양의 정수를 부여한다
+    아무런 의미없는 정수형 상수를 썻던 이유가 
+    bash에서 잘못된주소의 접근을 방지하기위해
+    모든 프로세스의 하드웨어에 0이상의 양의 정수를 부여한다
 
 >이것을 file descriptor 라고한다.
 
@@ -1107,3 +1132,132 @@ qwe
 cxzv
 cxzv
 ```
+---
+```c
+  1 #include <stdio.h>
+  2 #include <stdlib.h>
+  3 #include <unistd.h>
+  4 enum{ STDIN_FILENO = 0, STDOUT, STDERR}
+  5
+  6 //표준입력으로 부터 받은 데이터를 표준출력으로 전송하는 프로그램 구현
+  7 int main (int argc, char **argv) {
+  8     char buf[4096];
+  9     while(1) {
+ 10         ssize_t nRead = read(STDIN_FILENO, buf, sizeof(buf));
+ 11         if(nRead < 0) {
+ 12             perror("read");
+ 13             return -1;
+ 14         }
+ 15         else if(nRead==0) { //EOF
+ 16             break;
+ 17         }
+ 18         else {
+ 19             ssize_t nWritten = write(STDOUT, buf, nRead); //모니터라는 하드웨어 대해서 사용함에 있어서 s    izeofbuf를 활용한다면
+ 20             //쓰레기 값과 같이 찍힌다. buf 4KB를 꽉채웠다면 상관없겠지만
+ 21             if (nWritten < 0) {
+ 22                 perror("write");
+ 23                 return -1;
+ 24             }
+ 25             else if(nWritten != nRead) {
+ 26                 fprintf(stderr, "write error : %d / %d",  nWritten, nRead);
+ 27                 return -1;
+ 28             }
+ 29         }
+ 30         //오류코드에 해당하는 정수값을 지정한다면
+ 31         //외부에서 perror를 활용하여 메세지를 볼 수 있다.
+ 32     }
+ 33     return 0;
+ 34 }
+ 35 //read와 write를 활용함에 있어서 대상체를 설정해준다
+```
+---
+### open
+```
+NAME
+       open, openat, creat - open and possibly create a file
+
+SYNOPSIS
+       #include <sys/types.h>
+       #include <sys/stat.h>
+       #include <fcntl.h>
+
+       int open(const char *pathname, int flags);
+       int open(const char *pathname, int flags, mode_t mode);
+
+       int creat(const char *pathname, mode_t mode);
+
+       int openat(int dirfd, const char *pathname, int flags);
+       int openat(int dirfd, const char *pathname, int flags, mode_t mode);
+
+   Feature Test Macro Requirements for glibc (see feature_test_macros(7)):
+
+       openat():
+           Since glibc 2.10:
+               _POSIX_C_SOURCE >= 200809L
+           Before glibc 2.10:
+               _ATFILE_SOURCE
+RETURN VALUE
+       open(), openat(), and creat() return the new file descriptor, or -1 if an error occurred (in which
+       case, errno is set appropriately).
+
+
+```
+---
+```
+사용자 키보드로 부터 입력 받은 내용을 파일에 저장하는 프로그램 구현하기
+단 입출력은 표준 라이브러리를 사용하는것이 아닌 시스템 콜을 사용해야 한다.
+
+ex) ./myapp hello.txt -- cat > hello.txt
+```
+```c
+  1 #include <stdio.h>
+  2 #include <sys/types.h>
+  3 #include <fcntl.h>
+  4 #include <unistd.h>
+  5
+  6 int main(int argc, char **argv) {
+  7     if(argc != 2) {
+  8         fprintf(stderr, "usage : %s FILENAME\n", *argv);
+  9         return -1;
+ 10     }
+ 11     --argc, ++argv;
+ 12
+ 13     int fd = open(*argv, O_RDONLY); //FILE *fp = fopen(*argv, "r");
+ 14     if (fd < 0) {                   //if (fp == NULL)
+ 15         perror("open");         //  perror("fopen");
+ 16         return -1;                  //  return -1;
+ 17     }                               //}
+ 18
+ 19     char buf[4096];
+ 20     while(1) {
+ 21         int nRead = read(fd, buf, sizeof(buf));
+ 22         if (nRead <0 ) {
+ 23             perror("read");
+ 24             return -1;
+ 25         }
+ 26         else if(nRead ==0 ) {
+ 27             break;
+ 28         }
+ 29         else {
+ 30             write(1, buf, nRead);
+ 31         }
+ 32     }
+ 33     close(fd);//fclose descript가 정수이므로 close로 닫아준다
+ 34     return 0;
+ 35 }
+```
+|-출력!|
+|-|
+```s
+linux@ubuntu:~/0617$ gcc 8_mycat.c
+linux@ubuntu:~/0617$ ./a.out hello.c
+//hello.c
+#include <stdio.h>
+
+int main() {
+    printf("hello world\n");
+    return 0;
+}
+
+```
+---
