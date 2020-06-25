@@ -890,6 +890,4 @@ set sw4
 ### vi에서 도움말 확인 방법
       도움말을 보고자 하는 명령어의 토큰에 커서를 위치한 후 k + l
 
------
-###  ![echodrag](/assets/echodrag.jpg)
------
+![echodrag](..\Linux_MEMO\assets\2020-06-17-10-07-03.png)
