@@ -840,8 +840,9 @@ int main() {
 	}
 
 	pthread_t tid;
-	int ret = pthread_create(&tid, NULL, thread_main, (void*)sock);//전달해야하는 인자가 포인터이므로 강제 형변환.
-																//본래는 malloc을 통해 동적할당해주어야 한다.
+	int ret = pthread_create(&tid, NULL, thread_main, (void*)sock);
+	//전달해야하는 인자가 포인터이므로 강제 형변환.
+	//본래는 malloc을 통해 동적할당해주어야 한다.
 	if (ret) {
 		perror(strerror(ret));
 		return -1;
